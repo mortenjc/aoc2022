@@ -4,7 +4,7 @@ import argparse
 
 def get_data(filename):
     lines = [line.rstrip() for line in open(filename, 'r')]
-    print("get_data - read {} lines".format(len(lines)))
+    print("get_data() - read {} lines".format(len(lines)))
     return lines
 
 
@@ -17,10 +17,10 @@ def regions_overlap(a, b):
 
 
 def make_range(rangestr):
-    a = rangestr.split('-')[0]
-    b = rangestr.split('-')[1]
-    l = list(range(int(a), int(b)+1))
-    return l
+    a = int(rangestr.split('-')[0])
+    b = int(rangestr.split('-')[1])
+    return list(range(a, b + 1))
+
 
 def make_sets(line):
     regions = line.split(",")
@@ -59,3 +59,4 @@ if __name__ == '__main__':
     solve(l)
     print("############## B ##############")
     solve2(l)
+    print("###############################")

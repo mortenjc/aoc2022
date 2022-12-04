@@ -2,6 +2,13 @@
 
 import argparse
 
+
+def get_data(filename):
+    lines = [line.rstrip() for line in open(filename, 'r')]
+    print("get_data - read {} lines".format(len(lines)))
+    return lines
+
+
 def value(char):
     if (char >= 'a' and char <= 'z'):
         return ord(char) - ord('a') + 1
@@ -9,23 +16,16 @@ def value(char):
         return ord(char) - ord('A') + 27
     return 0
 
-def get_data(filename):
-    #INPUT = open(filename, "r")
-    #lines = INPUT.readlines()
-    lines = [line.rstrip() for line in open(filename, 'r')]
-    print("get_data - read {} lines".format(len(lines)))
-    return lines
-
 
 def solve(lines):
     sum = 0
     for line in lines:
-        print("items in compartments {}".format(len(line)))
-        a = line[0:int(len(line)/2)]
-        b = line[int(len(line)/2):int(len(line))]
-        print("len(a) {}, len(b) {}".format(len(a), len(b)))
+        linelen = int(len(line))
+        linelen2 = int(linelen/2)
+        a = line[0:linelen2]
+        b = line[linelen2:linelen]
         common=list(set(a)&set(b))
-        print("common letter {}, value {}".format(common[0], value(common[0])))
+        #print("common letter {}, value {}".format(common[0], value(common[0])))
         sum = sum + value(common[0])
     print("SUM {}".format(sum))
     return
@@ -38,7 +38,7 @@ def solve2(lines):
         b = lines[i * 3 + 1]
         c = lines[i * 3 + 2]
         common=list(set(a)&set(b)&set(c))
-        print("common letter {}, value {}".format(common[0], value(common[0])))
+        #print("common letter {}, value {}".format(common[0], value(common[0])))
         sum = sum + value(common[0])
     print("SUM {}".format(sum))
     return
@@ -51,6 +51,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     l = get_data(args.f)
+    print("############## A ##############")
     solve(l)
     print("############## B ##############")
     solve2(l)
+    print("###############################")
