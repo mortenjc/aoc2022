@@ -8,43 +8,35 @@ def get_data(filename):
     return lines
 
 
-def one_is_covered(a, b):
-    return (a&b == b) or (a&b == a)
+def covered(a):
+    return (a[0]&a[1] == a[1]) or (a[0]&a[1] == a[0])
 
 
-def regions_overlap(a, b):
-    return a&b
+def overlaps(a):
+    return len(a[0]&a[1]) != 0
 
 
 def make_range(rangestr):
-    a = int(rangestr.split('-')[0])
-    b = int(rangestr.split('-')[1])
-    return list(range(a, b + 1))
+    r = rangestr.split('-')
+    return list(range(int(r[0]), int(r[1]) + 1))
 
 
 def make_sets(line):
-    regions = line.split(",")
-    rb = set(make_range(regions[0]))
-    ra = set(make_range(regions[1]))
-    return ra, rb
+    reg = line.split(",")
+    return set(make_range(reg[0])), set(make_range(reg[1]))
 
 
-def solve(lines):
-    covered = 0
-    for line in lines:
-        a, b = make_sets(line)
-        if one_is_covered(a, b):
-            covered = covered + 1
-    print("{} are covered".format(covered))
+def solve1(lines):
+    print("{} are covered".format(
+        sum([covered(make_sets(line)) for line in lines])
+    ))
     return
 
+
 def solve2(lines):
-    overlaps = 0
-    for line in lines:
-        a, b = make_sets(line)
-        if regions_overlap(a, b):
-            overlaps = overlaps + 1
-    print("{} assignments overlap".format(overlaps))
+    print("{} assignments overlap".format(
+        sum([overlaps(make_sets(line)) for line in lines])
+    ))
     return
 
 
@@ -56,7 +48,7 @@ if __name__ == '__main__':
 
     l = get_data(args.f)
     print("############## A ##############")
-    solve(l)
+    solve1(l)
     print("############## B ##############")
     solve2(l)
     print("###############################")
