@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 import argparse
+from collections import deque
 
 def get_data(filename):
     lines = [line.rstrip() for line in open(filename, 'r')]
@@ -29,15 +30,59 @@ def get_data(filename):
 #     return ra, rb
 
 
-def solve(lines):
+def move(n, f, t):
+    for i in range(n):
+        t.append(f.pop())
+
+def move2(n, f, t):
+    tmp = deque()
+    for i in range(n):
+        tmp.append(f.pop())
+    for i in range(n):
+        t.append(tmp.pop())
+
+
+def scan(lines):
+    cols = 0
     for line in lines:
-        print(line)
+        if len(line) == 0:
+            return cols
+        if line[-1] != ']':
+            cols = int(line.split(' ')[-1])
+
+def solve(lines, mm):
+    state_parse = 0
+    state_move = 1
+    state = state_parse
+
+    piles = []
+    for i in range(scan(lines)):
+        piles.append(deque())
+
+    for line in lines:
+        #print(line)
+        if state == state_parse:
+            max = len(line)
+            for i in range(1, max - 1, 4):
+                index = (i - 1)//4
+                c = line[i]
+                if c != ' ':
+                    piles[index].appendleft(c)
+
+        if state == state_move:
+            i, n, i2, f, i3, t = line.split(' ')
+            if mm:
+                move2(int(n), piles[int(f) - 1], piles[int(t)- 1])
+            else:
+                move(int(n), piles[int(f) - 1], piles[int(t)- 1])
+
+        if (len(line) == 0): # empty line
+            state = state_move
+
+
+    print("".join([p[-1] for p in piles]))
     return
 
-def solve2(lines):
-    for line in lines:
-        print(line)
-    return
 
 
 if __name__ == '__main__':
@@ -48,7 +93,7 @@ if __name__ == '__main__':
 
     l = get_data(args.f)
     print("############## A ##############")
-    solve(l)
+    solve(l, 0)
     print("############## B ##############")
-    solve2(l)
-    print("###############################")
+    solve(l, 1)
+    #print("###############################")
