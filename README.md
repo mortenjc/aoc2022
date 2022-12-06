@@ -4,7 +4,7 @@ Some solutions to the Advent of Code challenge (https://adventofcode.com/)
 
 ## YouTube videos of selected solutions
 
-### day05
+### day 5
 https://www.youtube.com/watch?v=Fg7wLU5xhQo
 
 Interesting to see that he is super fast in solving the problem
@@ -24,3 +24,15 @@ look into string and list indexing
     [-1:] last entry
     [-n:] last n entries
     .extend()
+
+### day 6
+https://www.youtube.com/watch?v=LvwsB-JpJmQ
+
+Very fast and solved this with a 3-liner. Interesting enough he solved
+the first problem in a very specific way and then had to generalise
+for the second solution. Main take away points
+
+    create the set and then check it has length n
+    create sets backwards to simplify range checking
+
+    if (len >= 3) and len(set(...)) == 4
