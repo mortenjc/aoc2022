@@ -6,22 +6,10 @@ from collections import deque
 def get_data(filename):
     return [line.rstrip() for line in open(filename, 'r')]
 
-
-def different(chars):
-    s = set()
-    for c in chars:
-        if s&set(c):
-            return False
-        else:
-            s.add(c)
-    return True
-
-
 def solve(lines, n):
     for line in lines:
-        i = 0
-        for i in range(len(line) - n):
-            if different(line[i:i+n]):
+        for i in range(len(line)):
+            if i >=3 and len(set(line[i:i+n])) == n:
                 print("end of marker {}".format(i + n))
                 break
 
