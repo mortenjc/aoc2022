@@ -55,3 +55,9 @@ he just ignored. Main learnings:
     sizes = defaultdict(int)
 
     sometimes list comprehension is not necessary
+
+https://www.youtube.com/watch?v=YLHPABNNgZU
+
+Also uses defaultdict and has an interesting idea to split
+the input on '\n$' to a single line with the command and its
+output.
