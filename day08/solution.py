@@ -2,9 +2,11 @@
 
 import argparse, sys
 
+
 def isvisible(board, c, r):
     n = len(board)
     h = board[r][c]
+
     if all(board[r][i] < h for i in range(c)):
         return True
     if all(board[r][i] < h for i in range(c+1, n)):
@@ -38,15 +40,15 @@ def viewdist(board, c, r):
             break
     return dl * dr * dt * db
 
+
 def solve(grid):
     visible = best = 0
     for r in range(len(grid)):
         for c in range(len(grid[r])):
             if isvisible(grid, c, r):
                 visible += 1
-            s = viewdist(grid, c, r)
-            if s > best:
-                best = s
+            best = max(viewdist(grid, c, r), best)
+
     print("############## A ##############")
     print("visible {}".format(visible))
     print("############## B ##############")

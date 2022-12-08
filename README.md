@@ -9,7 +9,7 @@ learn about different approaches to attacking the problem,
 language features I don't know and the use of additional
 packages.
 
-### day 5
+### Day 5
 https://www.youtube.com/watch?v=Fg7wLU5xhQo
 
 Interesting to see that he is super fast in solving the problem
@@ -30,7 +30,7 @@ look into string and list indexing
     [-n:] last n entries
     .extend()
 
-### day 6
+### Day 6
 https://www.youtube.com/watch?v=LvwsB-JpJmQ
 
 Very fast and solved this with a 3-liner. Interesting enough he solved
@@ -42,7 +42,7 @@ for the second solution. Main take away points
 
     if (len >= 3) and len(set(...)) == 4
 
-### day 7
+### Day 7
 https://www.youtube.com/watch?v=ZPM5xclRInk
 
 My approach was the same, just took me a lot longer, but
@@ -61,3 +61,22 @@ https://www.youtube.com/watch?v=YLHPABNNgZU
 Also uses defaultdict and has an interesting idea to split
 the input on '\n$' to a single line with the command and its
 output.
+
+### Day 8
+https://www.youtube.com/watch?v=2lypi76wRsM
+
+This took me a long time and the above solution was both
+faster and more elegant. Learnings
+
+Reading the input file directly into a useful structure as a oneliner
+
+    grid = [list( map(int, line)) for line in open(ifile).read().splitlines()]
+
+Using all([]) returns True if all elements are True -  in conjuntion with list comprehension
+
+    if all(board[r][i] < h for i in range(c)):
+        return True
+
+Use builtin functions whenever possible. In this case max() rather two-line if statement
+
+    best = max(val, best)
