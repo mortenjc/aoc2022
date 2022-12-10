@@ -23,8 +23,8 @@ if __name__ == '__main__':
     #lines = [line.rstrip() for line in open(ifile, 'r')]
     with open(ifile) as fin:
         lines = (("\n" + fin.read().strip()).split('\n\n'))
-    print("############## A ##############")
+    print("------------- A -------------")
     solve(lines)
-    print("############## B ##############")
+    print("------------- B -------------")
     solve2(lines)
-    print("###############################")
+    print("-----------------------------")

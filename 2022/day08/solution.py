@@ -49,11 +49,11 @@ def solve(grid):
                 visible += 1
             best = max(viewdist(grid, c, r), best)
 
-    print("############## A ##############")
+    print("------------- A -------------")
     print("visible {}".format(visible))
-    print("############## B ##############")
+    print("------------- B -------------")
     print("best    {}".format(best))
-    print("###############################")
+    print("-----------------------------")
 
 
 if __name__ == '__main__':

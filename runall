@@ -1,9 +1,0 @@
-#!/bin/bash
-
-for i in $(find . -name "day*" | sort)
-do
-  echo Running solutions for $i
-  pushd $i
-  ./run
-  popd
-done

@@ -54,8 +54,8 @@ if __name__ == '__main__':
 
     sa = set(tuple(i) for i in cova)
     sb = set(tuple(i) for i in covb)
-    print("############## A ##############")
+    print("------------- A -------------")
     print('cova', len(sa))
-    print("############## B ##############")
+    print("------------- B -------------")
     print('covb', len(sb))
-    print("###############################")
+    print("-----------------------------")

@@ -80,3 +80,15 @@ Using all([]) returns True if all elements are True -  in conjuntion with list c
 Use builtin functions whenever possible. In this case max() rather two-line if statement
 
     best = max(val, best)
+
+
+### Day 10
+Learnings:
+
+Maybe useful to avoid multi line if
+
+    a = (A if X else B)  
+
+Initialise 2D grid
+
+    G = [['.' for _ in range(nx)] for _ in range(ny)]
