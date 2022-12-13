@@ -3,104 +3,58 @@
 import sys
 #import defaultdict
 from copy import deepcopy
-import math
-import networkx as nx
-from matplotlib import pyplot as plt
-
-
-def getmoves(graph, G, x, y, S, E):
-    #print(f'getmoves ({x},{y})')
-    f = f'({x},{y})'
-    if (x, y) == S:
-        #print(f'visited S')
-        val = ord('a')
-    elif (x, y) == E:
-        #print(f'visited E')
-        val = ord('z')
-    else:
-        val = ord(G[y][x])
-
-    moves = [(max(x-1, 0), y), (min(x+1, len(G[0])-1), y),
-    (x, max(y-1, 0)), (x, min(y+1, len(G)-1))  ]
-    moves = [i for i in moves if i != (x,y)]
-
-    #print(f'all valid {moves}')
-
-    for m in moves:
-        t = f'({m[0]},{m[1]})'
-        cc = G[m[1]][m[0]]
-        nextval = ord(cc)
-
-        if nextval == val:
-            print(f'= val {val}({chr(val)}), nextval {nextval}({chr(nextval)})')
-            print(f'= valid {f} <-> {t}   {chr(val)}<->{chr(nextval)}')
-            graph.add_edge(f, t)
-            graph.add_edge(t, f)
-        elif nextval == val +1:
-            print(f'> val {val}({chr(val)}), nextval {nextval}({chr(nextval)})')
-            print(f'> valid {f}  -> {t}   {chr(val)} ->{chr(nextval)}')
-            graph.add_edge(f, t)
-        elif nextval < val:
-            # print(f'< val {val}, nextval {nextval}')
-            # print(f'< valid {t} -> {f}   {chr(nextval)}->{chr(val)}')
-            # graph.add_edge(t, f)
-            pass
-        else:
-            print(f'invalid val {val}, nextval {nextval}')
-            print(f'invalid f{f} -> t{t}   {chr(val)}->{chr(nextval)}')
-
-
+from collections import deque
 
 infile = sys.argv[1] if len(sys.argv) > 1 else 'test.txt'
 print("<<{}>>".format(infile))
 data = open(infile).read().strip()
 lines = [x for x in data.split('\n')]
 
-G = deepcopy(lines)
-S = ''
-E = ''
-for r in range(len(G)):
-    for c in range(len(G[r])):
-        if ord(G[r][c]) == ord('S'):
-            S = (c, r)
-        if ord(G[r][c]) == ord('E'):
-            E = (c, r)
+# init
+G = lines
+R = len(G)
+C = len(G[0])
 
-print(S, E)
-
-graph = nx.MultiDiGraph()
-for r in range(len(G)):
-    for c in range(len(G[0])):
-        getmoves(graph, G, c, r, S, E)
+ele = [[0 for _ in range(C)] for _ in range(R)]
+for r in range(R):
+    for c in range(C):
+        if G[r][c] == 'S':
+            ele[r][c]= 1
+        elif G[r][c] == 'E':
+            ele[r][c] = 26
+        else:
+            ele[r][c] = ord(G[r][c]) - ord('a') + 1
 
 
-# plt.tight_layout()
-# graph2 = nx.DiGraph()
-# graph2.add_edges_from(
-#     [('A', 'B'), ('A', 'C'), ('C', 'A'), ('D', 'B'), ('E', 'C'), ('E', 'F'),
-#      ('B', 'H'), ('B', 'G'), ('B', 'F'), ('C', 'G')])
-# nx.draw_networkx(graph2, arrows=True)
-# # nx.draw_networkx(graph, arrows=True)
-# plt.savefig("g1.png", format="PNG")
-# plt.show()
-# plt.clf()
+def solve(G, ele, part):
+    Q = deque()
+    # setup initial conditions
+    for r in range(R):
+        for c in range(C):
+            if part == 1:
+                if G[r][c] == 'S':
+                    Q.append(((r,c), 0))
+            else:
+                if ele[r][c] == 1:
+                    Q.append(((r,c), 0))
 
-print(graph.nodes())
-
-Ss = f'({S[0]},{S[1]})'
-Es = f'({E[0]},{E[1]})'
-print(Ss, Es)
-sp = nx.shortest_path(graph, Ss, Es)
-print(sp)
-print(len(sp))
-
-
-
-
-
+    # iterate
+    S = set()
+    while Q:
+        (r, c), d = Q.popleft()
+        if (r,c) in S:
+            continue
+        S.add((r,c))
+        if G[r][c]== 'E':
+            return d
+        for dr,dc in [(-1,0),(0,1),(1,0),(0,-1)]:
+            rr = r + dr
+            cc = c + dc
+            if 0<=rr<R and 0<=cc<C and ele[rr][cc]<=1+ele[r][c]:
+                Q.append(((rr,cc), d+1))
 
 print("------------- A -------------")
-#print('S1', S[0])
+print(solve(G, ele, 1))
 print("------------- B -------------")
-#print('S2', S[1])
+print(solve(G, ele, 2))
 print("-----------------------------")
