@@ -7,6 +7,7 @@ from copy import deepcopy
 #import functools
 import numpy as np
 from PIL import Image
+import re
 
 
 def makeimage(B):
@@ -18,8 +19,7 @@ def makeimage(B):
             if I[r][c] == 'o': I[r][c] = 64
     na = np.array(I, dtype=np.uint8)
     im = Image.fromarray(na)
-    im.show(na)
-    #im.save('result.png')
+    im.save('result.png')
 
 
 def addsand(B, x, i):
@@ -41,6 +41,8 @@ def addsand(B, x, i):
     return dist, s1
 
 
+# https://adventofcode.com/2018/day/17
+
 infile = sys.argv[1] if len(sys.argv) > 1 else 'test.txt'
 print("<<{}>>".format(infile))
 
@@ -53,7 +55,18 @@ yma = 0
 y0 = 500
 paths = []
 for line in lines:
-    path = [(int(x.split(',')[0]), int(x.split(',')[1])) for x in line.split('->')]
+    #path = [(int(x.split(',')[0]), int(x.split(',')[1])) for x in line.split() if x != '->']
+    x = re.search("^([xy])=(.*), ([xy]=)(.*)\.\.(.*)", line)
+    a = int(x.group(2))
+    b = int(x.group(4))
+    c = int(x.group(5))
+    if x.group(1) == 'x':
+        print(f'({a},{b}) -> ({a},{c})')
+        path = [(a,b), (a,c)]
+    else:
+        print(f'({b},{a}) -> ({c},{a})')
+        path = [(b,a), (c,a)]
+
     paths.append(path)
     for p1 in path:
         xmi = min(xmi, p1[0])
