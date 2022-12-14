@@ -92,3 +92,11 @@ Maybe useful to avoid multi line if
 Initialise 2D grid
 
     G = [['.' for _ in range(nx)] for _ in range(ny)]
+
+
+### Day 14
+Learnings/discoveries
+
+    Use PIL for creating image
+
+![Day 14](2022/day14/result.png)
