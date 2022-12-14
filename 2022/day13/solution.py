@@ -8,7 +8,13 @@ import functools
 
 
 def compare(l, r):
-    if type(l) is int and type(r) is int:
+    if isinstance(l, list) and isinstance(r, int):
+        r = [r]
+
+    if isinstance(l, int) and isinstance(r, list):
+        l = [l]
+
+    if isinstance(l, int) and isinstance(r, int):
         if l == r:
             return 0
         if l < r:
@@ -16,7 +22,7 @@ def compare(l, r):
         else:
             return 1
 
-    if type(l) is list and type(r) is list:
+    if isinstance(l, list) and isinstance(r, list):
         i = 0
         while i < len(l) and i < len(r):
             c = compare(l[i], r[i])
@@ -25,22 +31,18 @@ def compare(l, r):
             if c == 1:
                 return 1
             i += 1
+
         if i == len(l) and i < len(r):
             return -1
         elif i < len(l) and i == len(r):
             return 1
         else:
             return 0
-    elif type(l) is list and type(r) is int:
-        return compare(l, [r])
-    elif type(l) is int and type(r) is list:
-        return compare([l], r)
+
 
 
 infile = sys.argv[1] if len(sys.argv) > 1 else 'test.txt'
 print("<<{}>>".format(infile))
-data = open(infile).read().strip()
-#lines = [x for x in data.split('\n\n')]with open(ifile) as fin:
 
 with open(infile) as fin:
         lines = ((fin.read().strip()).split('\n\n'))
@@ -49,8 +51,8 @@ with open(infile) as fin:
 S1 = 0
 for i, line in enumerate(lines):
     pair = i + 1
-    l, r = line.replace('\n', ' ').split()
-    if compare(eval(l), eval(r)) == -1:
+    l, r = map(eval, line.replace('\n', ' ').split())
+    if compare(l, r) == -1:
         S1 += pair
 
 
