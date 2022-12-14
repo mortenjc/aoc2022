@@ -16,51 +16,35 @@ def makeimage(B):
             if I[r][c] == '#': I[r][c] = 255
             if I[r][c] == '.': I[r][c] = 0
             if I[r][c] == 'o': I[r][c] = 64
-    na = np.array(B, dtype=np.uint8)
+    na = np.array(I, dtype=np.uint8)
     im = Image.fromarray(na)
     im.save('result.png')
 
 
 def addsand(B, x, i):
-    S1 = 1000000
+    s1 = 1000000
     y = 0
-    fell = 0
-    if B[y][x] != '.':
-        assert False
-        return
+    dist = 0
 
     while (B[y+1][x] == '.' or B[y+1][x -1] == '.' or B[y+1][x+1] == '.' ):
-        fell+=1
+        dist+=1
         if y == len(B) - 3:
-            S1 = min(S1, i-1)
-        if B[y+1][x] == '.':
-            B[y][x] = '.'
-            B[y+1][x] = 'o'
-        elif B[y+1][x-1] == '.':
-            B[y][x] = '.'
-            B[y+1][x-1] = 'o'
-            x += -1
-        elif B[y+1][x+1] == '.':
-            B[y][x] = '.'
-            B[y+1][x+1] = 'o'
-            x += 1
+            s1 = min(s1, i-1)
+        for dx in [0, -1, 1]:
+            if B[y+1][x+dx] == '.':
+                B[y][x] = '.'
+                B[y+1][x+dx] = 'o'
+                x = x + dx
+                break
         y+=1
+    return dist, s1
 
-    return fell, S1
-
-
-
-# split(\n\n) - get blocks separated by blank lines
-# split(\n) - get lines
 
 infile = sys.argv[1] if len(sys.argv) > 1 else 'test.txt'
 print("<<{}>>".format(infile))
 
 with open(infile) as fin:
     lines = ((fin.read().strip()).split('\n'))
-
-S1 = 0
-S2 = 0
 
 xmi = 1000
 xma = 0
@@ -102,17 +86,20 @@ for path in paths:
             x += dx
             y += dy
 
+
+S1 = 1000000000
+S2 = 0
 i = 1
 done = False
-S1 = 1000000000
 while (not done):
-    f, s = addsand(B, y0 - xmi + xoffs, i)
+    d, s = addsand(B, y0 - xmi + xoffs, i)
     S1 = min(s, S1)
-    if f == 0:
+    if d == 0:
         S2 = i
         done = True
     i+=1
-#makeimage(B)
+
+makeimage(B)
 
 print("------------- A -------------")
 print(f'S1 {S1}')
