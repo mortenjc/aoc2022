@@ -39,7 +39,6 @@ for line in lines:
     B.add((bx, by))
 
 
-
 # Part I
 S1 = 0
 y = s1_y
@@ -48,26 +47,19 @@ for x in range(-10000, 10000):
     if not valid(x, y, S) and (x, y) not in B:
         S1 += 1
 
-#
+# Part II
 S2 = 0
 res = (-1, -1)
 done = False
 for (sx, sy, d) in S:
     if done:
         break
-    #print(f'S ({sx},{sy},{d})')
-    #print(f'top    ({sx},{sy -d - 1})')
-    #print(f'bottom ({sx},{sy +d + 1})')
-
     ymin = sy-d-1
     ymax = sy+d+1
-    #print(f'ymin {ymin}, ymax {ymax}')
     for y in range(ymin, ymax+1):
         dx = abs(d+1 - abs(sy -y))
-        #print(f'y {y}: d {d}, dx {dx}')
         x1 = sx + dx
         x2 = sx - dx
-        #print(f'checking ({x1},{y}), ({x2},{y})')
         if not (0 <= x1 <= s2_max and 0 <= x2 <= s2_max and 0<= y <= s2_max):
             continue
         if valid(x1, y, S):
