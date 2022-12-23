@@ -37,7 +37,8 @@ print(f'startpos {pos}')
 assert maze[0][0] == ' '
 dirs = {(1,0):'R', (-1,0):'L', (0,1):'D', (0,-1):'U'}
 vals = {'R':0, 'D':1, 'L':2, 'U':3}
-cs={'R':'>', 'D':'v', 'L':'<', 'U':'^'}
+cs = {'R':'>', 'D':'v', 'L':'<', 'U':'^'}
+
 
 
 def draw(x,y,n):
@@ -46,6 +47,7 @@ def draw(x,y,n):
         if i >= max(0, y-n) and i <= min(ymax, y+n):
             print(f'{i:3} | {line}|')
     print('   ---------------------')
+
 
 def rotate(x, y, d):
     if d=='L':
@@ -58,6 +60,7 @@ def rotate(x, y, d):
 
 def boundary(x,y):
     return x<0 or y<0 or x>xmax or y>ymax
+
 
 def wrap(x, y, dx, dy):
     orgx = x
@@ -72,8 +75,8 @@ def wrap(x, y, dx, dy):
                 return orgx, orgy
             else:
                 return x, y
-        c = maze[ny][nx]
-        if c==' ':
+
+        if maze[ny][nx]==' ':
             if maze[y][x] == '#':
                 return orgx, orgy
             else:
@@ -87,16 +90,15 @@ def wrap(x, y, dx, dy):
 def update(x,y,c, plot):
     l = [p for p in maze[y]]
     l[x] = c
-    l = ''.join(l)
-    maze[y] = l
+    maze[y] = ''.join(l)
     if plot:
         draw(x,y,10)
+
 
 def move(x, y, n, dx, dy):
     for i in range(n):
         nx = x+dx
         ny = y+dy
-        dowrap = False
         if boundary(nx,ny):
             x, y = wrap(x, y, dx, dy)
         elif maze[ny][nx] == '#':
