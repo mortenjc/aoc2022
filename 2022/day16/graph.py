@@ -67,16 +67,6 @@ for line in lines:
 
 graph_draw(ug, vertex_text=ug.vertex_index, output="two-nodes.pdf")
 
-
-
-
-
-
-
-
-
-
-
 print("------------- A -------------")
 print('S1 ', S1)
 print("------------- B -------------")

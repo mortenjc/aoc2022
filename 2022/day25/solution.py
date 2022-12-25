@@ -16,11 +16,9 @@ class AOC2022:
         snafu = ''
         while number > 0:
             number, rem = divmod(number, 5)
-            print('# ', number, rem)
             snafu += d2s[rem]
             if rem > 2:
                 number += 1
-            print(number, d2s[rem])
         return snafu[::-1] if snafu else '0'
 
 

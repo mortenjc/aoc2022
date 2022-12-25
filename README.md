@@ -100,3 +100,36 @@ Learnings/discoveries
     Use PIL for creating image
 
 ![Day 14](2022/day14/result.png)
+
+
+### Day 21
+Use 'exec' to create variables and solve by substitution
+
+    exec(f'{name} == {val}')
+
+where name and val are previously parsed strings.
+
+
+### Day 24
+Learned that Python's 'for' have an 'else' section
+
+    for x in s:
+        if ... :
+            break
+    else:
+        didn't break
+
+
+### Day 25
+Reversing a list
+
+    snafu[::-1]
+
+or returning every n'the element (backwards or forwards)
+
+    a[::3]
+    a[::-2]
+
+Discovered 'divmod'
+
+    q, r = divmod(8,3)
