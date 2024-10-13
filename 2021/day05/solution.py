@@ -40,11 +40,11 @@ for part in [1,2]:
             if pos == (tx, ty):
                 break
 
-    res = [1 for x in pts if pts[x] > 1]
+    res = len([1 for x in pts if pts[x] > 1])
     if part == 1:
-        S1 = len(res)
+        S1 = res
     else:
-        S2 = len(res)
+        S2 = res
 
 print("------------- A -------------")
 print(f'S1 {S1}')
